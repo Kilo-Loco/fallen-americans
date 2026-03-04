@@ -1,0 +1,19 @@
+{
+  "name": "fallen-americans",
+  "version": "1.0.0",
+  "description": "Interactive map honoring U.S. service members lost in 2026",
+  "scripts": {
+    "monitor": "node scripts/monitor-dod.js",
+    "watch": "node scripts/monitor-dod.js --watch",
+    "add": "node scripts/add-soldier.js",
+    "serve": "python3 -m http.server 8000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kilo-Loco/fallen-americans.git"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "puppeteer": "^21.0.0"
+  }
+}
