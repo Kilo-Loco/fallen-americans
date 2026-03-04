@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fallen Americans - 2026</title>
+  
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <h1>American Service Members Lost in 2026</h1>
+    <p class="subtitle">Honoring those who gave everything</p>
+  </header>
+
+  <div class="stats-bar">
+    <div class="stat">
+      <span class="stat-number" id="total-count">0</span>
+      <span class="stat-label">Service Members Lost</span>
+    </div>
+    <div class="stat">
+      <span class="stat-number" id="states-count">0</span>
+      <span class="stat-label">States Affected</span>
+    </div>
+  </div>
+
+  <main>
+    <div id="map"></div>
+    
+    <div id="soldier-panel" class="panel hidden">
+      <button class="close-btn" onclick="closePanel()">&times;</button>
+      <div id="soldier-details"></div>
+    </div>
+  </main>
+
+  <footer>
+    <p>Data sourced from public Department of Defense announcements.</p>
+    <p>Each marker represents an American hometown that lost someone.</p>
+  </footer>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
