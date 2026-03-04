@@ -22,8 +22,12 @@
 
   <div class="stats-bar">
     <div class="stat">
-      <span class="stat-number" id="total-count">0</span>
+      <span class="stat-number" id="total-count">6</span>
       <span class="stat-label">Service Members Lost</span>
+    </div>
+    <div class="stat">
+      <span class="stat-number" id="identified-count">0</span>
+      <span class="stat-label">Identified</span>
     </div>
     <div class="stat">
       <span class="stat-number" id="states-count">0</span>
@@ -43,6 +47,7 @@
   <footer>
     <p>Data sourced from public Department of Defense announcements.</p>
     <p>Each marker represents an American hometown that lost someone.</p>
+    <p class="pending-note" id="pending-note"></p>
   </footer>
 
   <!-- Leaflet JS -->

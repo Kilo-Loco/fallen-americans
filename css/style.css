@@ -202,6 +202,12 @@ footer p {
   margin: 0.25rem 0;
 }
 
+.pending-note {
+  color: #f59e0b;
+  font-style: italic;
+  margin-top: 0.5rem;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   header h1 {

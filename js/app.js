@@ -34,10 +34,22 @@ async function loadData() {
     soldiers = await response.json();
     
     // Update stats
-    document.getElementById('total-count').textContent = soldiers.length;
+    // Total confirmed by CENTCOM (hardcoded until all identified)
+    const totalConfirmed = 6;
+    document.getElementById('total-count').textContent = totalConfirmed;
+    document.getElementById('identified-count').textContent = soldiers.length;
     
     const states = new Set(soldiers.map(s => s.state));
     document.getElementById('states-count').textContent = states.size;
+    
+    // Show pending note if not all identified
+    const pending = totalConfirmed - soldiers.length;
+    const pendingNote = document.getElementById('pending-note');
+    if (pending > 0) {
+      pendingNote.textContent = `${pending} service member${pending > 1 ? 's' : ''} pending identification by DoD.`;
+    } else {
+      pendingNote.textContent = '';
+    }
     
     // Add markers
     soldiers.forEach(soldier => {
