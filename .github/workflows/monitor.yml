@@ -1,0 +1,76 @@
+name: Monitor DoD Releases
+
+on:
+  schedule:
+    # Run 3x daily during EST business hours
+    # 9am EST (2pm UTC), 1pm EST (6pm UTC), 5pm EST (10pm UTC)
+    - cron: '0 14 * * *'  # 9am EST / 6am PST
+    - cron: '0 18 * * *'  # 1pm EST / 10am PST
+    - cron: '0 22 * * *'  # 5pm EST / 2pm PST
+  
+  # Allow manual trigger
+  workflow_dispatch:
+
+jobs:
+  check-releases:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Chromium dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libnss3 \
+            libatk1.0-0 \
+            libatk-bridge2.0-0 \
+            libcups2 \
+            libdrm2 \
+            libxkbcommon0 \
+            libxcomposite1 \
+            libxdamage1 \
+            libxfixes3 \
+            libxrandr2 \
+            libgbm1 \
+            libasound2
+
+      - name: Run monitor script
+        run: node scripts/monitor-dod.js
+        env:
+          PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: false
+
+      - name: Check for changes
+        id: changes
+        run: |
+          if git diff --quiet data/soldiers.json; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "New casualties detected!"
+          fi
+
+      - name: Commit and push changes
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add data/soldiers.json data/seen-releases.json
+          git commit -m "Auto-update: New DoD casualty release detected"
+          git push
+
+      - name: Log result
+        run: |
+          echo "Monitor completed at $(date)"
+          echo "Changes detected: ${{ steps.changes.outputs.changed }}"
+          cat data/soldiers.json | head -50
