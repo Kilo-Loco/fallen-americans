@@ -34,7 +34,7 @@ async function loadData() {
     soldiers = await response.json();
     
     // Update stats
-    // Total confirmed by CENTCOM (hardcoded until all identified)
+    // Total confirmed deaths (5 identified + 1 pending confirmation)
     const totalConfirmed = 6;
     document.getElementById('total-count').textContent = totalConfirmed;
     document.getElementById('identified-count').textContent = soldiers.length;
