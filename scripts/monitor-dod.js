@@ -16,6 +16,9 @@ const https = require('https');
 const DATA_PATH = path.join(__dirname, '..', 'data', 'soldiers.json');
 const CACHE_PATH = path.join(__dirname, '..', 'data', 'seen-releases.json');
 
+// Helper for waiting (replaces deprecated page.waitForTimeout)
+const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
 // DoD casualty releases search
 const DOD_URL = 'https://www.war.gov/News/Releases/';
 const SEARCH_TERM = 'casualty';
@@ -144,7 +147,7 @@ async function scrapeReleases() {
     }
     
     // Wait for content
-    await page.waitForTimeout(3000);
+    await wait(3000);
     
     // Get all release links
     const releases = await page.evaluate(() => {
@@ -188,7 +191,7 @@ async function scrapeReleases() {
       
       // Visit release page
       await page.goto(release.url, { waitUntil: 'networkidle2', timeout: 30000 });
-      await page.waitForTimeout(1000);
+      await wait(1000);
       
       // Get release content
       const content = await page.evaluate(() => {
