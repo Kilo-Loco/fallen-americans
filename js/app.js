@@ -33,23 +33,16 @@ async function loadData() {
     const response = await fetch('data/soldiers.json');
     soldiers = await response.json();
     
-    // Update stats
-    // Total confirmed deaths (5 identified + 1 pending confirmation)
-    const totalConfirmed = 6;
-    document.getElementById('total-count').textContent = totalConfirmed;
+    // Update stats dynamically from data
+    document.getElementById('total-count').textContent = soldiers.length;
     document.getElementById('identified-count').textContent = soldiers.length;
     
     const states = new Set(soldiers.map(s => s.state));
     document.getElementById('states-count').textContent = states.size;
     
-    // Show pending note if not all identified
-    const pending = totalConfirmed - soldiers.length;
+    // Clear pending note since all are sourced from confirmed DoD announcements
     const pendingNote = document.getElementById('pending-note');
-    if (pending > 0) {
-      pendingNote.textContent = `${pending} service member${pending > 1 ? 's' : ''} pending identification by DoD.`;
-    } else {
-      pendingNote.textContent = '';
-    }
+    pendingNote.textContent = '';
     
     // Add markers
     soldiers.forEach(soldier => {
